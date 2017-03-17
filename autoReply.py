@@ -10,7 +10,7 @@ def text_reply(msg):
 
 @itchat.msg_register([PICTURE,RECORDING,ATTACHMENT,VIDEO])# attachment 附件
 def download_reply(msg):
-    msg['Text'](msg['FileName'])
+    msg['Text'](msg['FileName'])  #下载附件
     return '@%s@%s'%({'Picture':'img','Video':'vid'}.get(msg['Type'],'fil'),msg['FileName'])
 
 @itchat.msg_register(FRIENDS)
@@ -21,9 +21,9 @@ def add_friend(msg):
 
 @itchat.msg_register(TEXT,isGroupChat=True)
 def text_reply(msg):
-    if msg['isAt']:
+    if 'isAt' in msg:
         itchat.send(u'@%s\u2005I received:%s'%(msg['ActualNickName'],msg['Content']),msg['FromUserName'])
     return
 
-itchat.auto_login(True)
+itchat.auto_login(hotReload=True,enableCmdQR=True)
 itchat.run()
